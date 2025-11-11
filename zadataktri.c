@@ -283,52 +283,44 @@ Person* addBefore(Person* head) {
     printf("Nova osoba dodana prije %s.\n", target);
     return head;
 }
-
-// Sorts the list by last name using Bubble Sort
 Person* sortByLastName(Person* head) {
-    if (head == NULL || head->next == NULL) {
-        printf("Lista je prazna ili ima samo jedan element — nema potrebe za sortiranjem.\n");
+    if (head == NULL)
         return head;
-    }
 
-    int swapped;         // Flag to check if any swap happened during a pass
-    Person* current;         // Pointer to the current node during traversal
-    Person* end = NULL;      // Marks the last sorted element 
-   
+    struct Node* i;
+    struct Node* j;
+    struct Node* end = NULL;
 
-    do {
-        swapped = 0;
-        current = head;
-
-        while (current->next != end) {
-            if (strcmp(current->last_name, current->next->last_name) > 0) { // Compare two neighboring elements by last name
-                
-                char tempFirst[50], tempLast[50];  // If they are out of order, swap their data fields
+    // Outer loop: each pass moves the largest element to the end of the list
+    for (i = head; i->next != end; i = head) {
+        // Inner loop: compare adjacent elements up to the "end" marker
+        for (j = head; j->next != end; j = j->next) {
+            // Compare last names; if out of order, swap their data fields
+            if (strcmp(j->last_name, j->next->last_name) > 0) {
+                char tempFirst[50], tempLast[50];
                 int tempYear;
 
-                // Save current node's data temporarily
-                strcpy(tempFirst, current->Name);
-                strcpy(tempLast, current->last_name);
-                tempYear = current->yearob;
+                // Temporarily store data from the current node
+                strcpy(tempFirst, j->Name);
+                strcpy(tempLast, j->last_name);
+                tempYear = j->yearob;
 
-                // Copy next node's data into current node
-                strcpy(current->Name, current->next->Name);
-                strcpy(current->last_name, current->next->last_name);
-                current->yearob = current->next->yearob;
+                // Copy next nodeâ€™s data into the current node
+                strcpy(j->Name, j->next->Name);
+                strcpy(j->last_name, j->next->last_name);
+                j->yearob = j->next->yearob;
 
                 // Move the saved data into the next node
-                strcpy(current->next->Name, tempFirst);
-                strcpy(current->next->last_name, tempLast);
-                current->next->yearob = tempYear;
-
-                swapped = 1;
+                strcpy(j->next->Name, tempFirst);
+                strcpy(j->next->last_name, tempLast);
+                j->next->yearob = tempYear;
             }
-            current = current->next;  // Move the pointer to the next node
         }
-        end = current;   // After one full pass, the last element is in its correct position 
-    } while (swapped); // Keep sorting until a pass completes with no swaps
+        // After each full inner pass, the last node is in its correct position
+        end = j;
+    }
 
-    printf("Lista je sortirana po prezimenu.\n");
+    printf("List has been sorted by last name.\n");
     return head;
 }
 
@@ -389,4 +381,5 @@ void freeList(Person* head) {
         head = head->next;
         free(temp);
     }
+
 }
