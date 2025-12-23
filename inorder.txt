@@ -1,0 +1,6 @@
+Inorder before replace:
+11 8 7 7 5 4 3 2 2 1 
+Inorder after replace:
+0 11 26 0 40 3 0 48 0 2 
+Inorder of random tree:
+85 82 69 63 57 43 41 22 17 12 
