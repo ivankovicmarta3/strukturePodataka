@@ -51,7 +51,7 @@ Town* addTownList(Town* head, char* name, int peopleCount) {
         peopleCount < head->peopleCount) {// or goes to beginning
         newTown->next = head;                // connect new node
         head = newTown;                      // update head
-        return newTown                               // new town becomes new head
+        return newTown;                               // new town becomes new head
     }
 
 
@@ -72,7 +72,7 @@ State* addStateList(State* head, State* newState) {
         strcmp(newState->name, head->name) < 0) {
         newState->next = head;               // insert at beginning
         head = newState;                    // update head
-        return newState                            // new state becomes head
+        return newState;                            // new state becomes head
     }
 
     State* temp = head;                      // traversal pointer
@@ -102,7 +102,8 @@ State* addStateTree(State* root, State* newState) {
 
 /* read towns from file and store them in BST */
 Town* readTownsFromFile(char* filename) {
-    FILE* file = fopen(filename, "r");        // open file
+    FILE* file = fopen(filename, "r"); // open file
+    Town* root=NULL;
     char townName[MAX];                       // buffer for town name
     int people;                               // population value
 
@@ -116,7 +117,7 @@ Town* readTownsFromFile(char* filename) {
 }
 /* print towns with population greater than limit */
 int printTownsAboveLimit(Town* root, int limit) {
-    if (root == NULL) return;                 // stop if tree is empty
+    if (root == NULL) return 0;                 // stop if tree is empty
 
     int count = 0;
 
@@ -138,7 +139,7 @@ int main() {
 
     char stateName[MAX], townFile[MAX];       // buffers for input
 
-    while (fscanf(file, "%s %s",stateName, townFile) == 2) {
+    while (fscanf(file, "%99s %99s",stateName, townFile) == 2) {
         State* s = malloc(sizeof(State));                      // allocate state
         strcpy(s->name, stateName);                            // copy state name
                                            
@@ -153,7 +154,7 @@ int main() {
     int limit;                                // population limit
 
     printf("Enter state name: ");              // user input
-    scanf("%s", wantedState);
+    scanf("%99s", wantedState);
 
     printf("Enter population limit: ");        // user input
     scanf("%d", &limit);
@@ -174,5 +175,6 @@ int main() {
     }
     return 0;                                 // end program
 }
+
 
 
